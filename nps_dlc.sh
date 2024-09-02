@@ -121,8 +121,8 @@ do
             test -d "addcont/" && rm -rf "addcont/"
             pkg2zip -x "${GAME_ID}_dlc.pkg" "${KEY}"
             zip -r "${MY_FILE_NAME}.zip" "addcont/"
-            mkdir -p "/sdcard/PSV_DLC"
-            mv "${GAME_ID}_dlc/*.zip" "/sdcard/PSV_DLC"
+            mkdir -p "/sdcard/NPS/PSV_DLC"
+            mv "${GAME_ID}_dlc/*.zip" "/sdcard/NPS/PSV_DLC"
         fi
     fi
 done

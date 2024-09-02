@@ -1,6 +1,7 @@
 #!/bin/sh
 
 # AUTHOR sigmaboy <j.sigmaboy@gmail.com>
+# MODIFIED steven33 <stevenbeach33@gmail.com>
 
 # return codes:
 # 1 user errors
@@ -16,7 +17,7 @@ SCRIPT_DIR="$(dirname "$(readlink -f "$(which "${0}")")")"
 my_usage() {
     echo ""
     echo "Usage:"
-    echo "${0} \"/path/to/PSP_GAME.tsv\" \"ULUS00001\""
+    echo "${0} \"/path/to/PSP_GAME.tsv\" \"GAME_ID\""
 }
 
 MY_BINARIES="pkg2zip sed"
@@ -78,5 +79,6 @@ else
 
     pkg2zip -l "${GAME_ID}.pkg" > "${GAME_ID}.txt"
     pkg2zip "${GAME_ID}.pkg"
+    mv *.iso "/sdcard/NPS/PSP"
     rm "${GAME_ID}.pkg"
 fi
