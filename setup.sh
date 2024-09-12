@@ -4,11 +4,11 @@
 
 #install requirement
 pkg update && pkg upgrade -y
-pkg install file which python3 curl zip -y
+pkg install file which python3 curl wget zip -y
 
-#make it executable and let system know bin
+#make it executable and move pkg2zip to system
 chmod a+x *
 chmod +x bin/pkg2zip
-echo "export PATH=$PATH:~/nopaystation_scripts/bin" >> ~/.bashrc
-source ~/.bashrc
+mv bin/pkg2zip $PREFIX/bin
 bash nps_tsv.sh
+mkdir -p /sdcard/NPS/{PSV/{GAME,DLC,UPDATE},PSP/GAME,PSM/GAME}

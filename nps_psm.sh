@@ -112,11 +112,10 @@ else
         pkg2zip -l "${TITLE_ID}.pkg" | sed 's/.zip//g' > "${TITLE_ID}.txt"
         MY_FILE_NAME="$(cat "${TITLE_ID}.txt")"
         MY_FILE_NAME="$(region_rename "${MY_FILE_NAME}")"
-        test -d "psm/" && rm -rf "psm/"
+        
         pkg2zip -x "${TITLE_ID}.pkg" "${KEY}"
-        mkdir -p "/sdcard/NPS/PSM"
-        zip -r "${MY_FILE_NAME}.zip" "psm/"
-        mv "${TITLE_ID}/*.zip" "/sdcard/NPS/PSM"
+        zip -r "${TITLE_ID}.zip" "psm/"
+        mv "${TITLE_ID}/*.zip" "/sdcard/NPS/PSM/"
         rm -rf "psm/"
         rm "${TITLE_ID}.pkg"
     fi

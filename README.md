@@ -11,8 +11,9 @@ or all DLC of a PS Vita game, PSM or PSP games.
 * Termux
 
 ## nopaystation\_scripts Installation
+
 ```bash
-git clone https://github.com/steven33/nopaystation_scripts.git && cd nopaystation_scripts && bash setup.sh
+git clone https://github.com/steven33/nopaystation_scripts.git && cd nopaystation_scripts && bash setup.sh && source ~/.bashrc
 ```
 
 ## Script examples and description 

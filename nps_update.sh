@@ -119,11 +119,9 @@ do
         MY_FILE_NAME="$(region_rename "${MY_FILE_NAME}")"
 
         # extract files and compress them with zip
-        test -d "patch/" && rm -rf "patch/"
-        pkg2zip -x "${TITLE_ID}_update.pkg"
-        zip -r "${MY_FILE_NAME}.zip" "patch/"
-        mkdir -p "/sdcard/NPS/PSV_UPDATE"
-        mv "${TITLE_ID}_update/*.zip" "/sdcard/NPS/PSV_UPDATE"
+        pkg2zip "${TITLE_ID}_update.pkg"
+        mv "${TITLE_ID}_update.zip" "/sdcard/NPS/PSV/UPDATE"
+        rm "${TITLE_ID}.pkg,${TITLE_ID}.txt"
     fi
 done
 

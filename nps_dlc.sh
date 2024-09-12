@@ -118,14 +118,15 @@ do
             MY_FILE_NAME="$(region_rename "${MY_FILE_NAME}")"
 
             # extract files and compress them with zip
-            test -d "addcont/" && rm -rf "addcont/"
             pkg2zip -x "${GAME_ID}_dlc.pkg" "${KEY}"
-            zip -r "${MY_FILE_NAME}.zip" "addcont/"
-            mkdir -p "/sdcard/NPS/PSV_DLC"
-            mv "${GAME_ID}_dlc/*.zip" "/sdcard/NPS/PSV_DLC"
         fi
     fi
 done
+
+zip -r "${GAME_ID}.zip" "addcont"
+mv "${GAME_ID}.zip" "/sdcard/NPS/PSV/DLC"
+rm -rf "${GAME_ID}_dlc.pkg,${GAME_ID}_dlc.txt,addcont"
+
 if [ ${MISSING_COUNT} -gt 0 ]
 then
     exit 4

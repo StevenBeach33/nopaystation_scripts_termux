@@ -79,6 +79,6 @@ else
 
     pkg2zip -l "${GAME_ID}.pkg" > "${GAME_ID}.txt"
     pkg2zip "${GAME_ID}.pkg"
-    mv *.iso "/sdcard/NPS/PSP"
+    mv *.iso "/sdcard/NPS/PSP/"
     rm "${GAME_ID}.pkg"
 fi
