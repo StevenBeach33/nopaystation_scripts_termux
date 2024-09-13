@@ -1,6 +1,7 @@
 #!/bin/sh
 
 # AUTHOR sigmaboy <j.sigmaboy@gmail.com>
+# MODIFIED steven33 <stevenbeach33@gmail.com>
 
 # return codes:
 # 1 user errors
@@ -17,10 +18,10 @@ SCRIPT_DIR="$(dirname "$(readlink -f "$(which "${0}")")")"
 my_usage() {
     echo ""
     echo "Usage:"
-    echo "${0} \"/path/to/PSM.tsv\" \"PCSE00986\""
+    echo "${0} \"/path/to/PSM.tsv\" \"GAME_ID\""
 }
 
-MY_BINARIES="pkg2zip sed grep file t7z"
+MY_BINARIES="pkg2zip sed grep file zip"
 sha256_choose; downloader_choose
 
 check_binaries "${MY_BINARIES}"
@@ -111,10 +112,10 @@ else
         pkg2zip -l "${TITLE_ID}.pkg" | sed 's/.zip//g' > "${TITLE_ID}.txt"
         MY_FILE_NAME="$(cat "${TITLE_ID}.txt")"
         MY_FILE_NAME="$(region_rename "${MY_FILE_NAME}")"
-        test -d "psm/" && rm -rf "psm/"
+        
         pkg2zip -x "${TITLE_ID}.pkg" "${KEY}"
-        # add the -rs parameter until a bug on the t7z port for FreeBSD is fixed
-        t7z -ba -rs a "${MY_FILE_NAME}.${ext}" "psm/"
+        zip -r "${TITLE_ID}.zip" "psm/"
+        mv "${TITLE_ID}/*.zip" "/sdcard/NPS/PSM/"
         rm -rf "psm/"
         rm "${TITLE_ID}.pkg"
     fi

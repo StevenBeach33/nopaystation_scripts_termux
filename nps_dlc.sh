@@ -1,6 +1,7 @@
 #!/bin/sh
 
 # AUTHOR sigmaboy <j.sigmaboy@gmail.com>
+# MODIFIED steven33 <stevenbeach33@gmail.com>
 
 # return codes:
 # 1 user errors
@@ -17,10 +18,10 @@ SCRIPT_DIR="$(dirname "$(readlink -f "${0}")")"
 my_usage(){
     echo ""
     echo "Usage:"
-    echo "${0} \"/path/to/DLC.tsv\" \"PCSE00986\""
+    echo "${0} \"/path/to/DLC.tsv\" \"GAME_ID\""
 }
 
-MY_BINARIES="pkg2zip sed grep t7z file"
+MY_BINARIES="pkg2zip sed grep file zip"
 sha256_choose; downloader_choose
 
 check_binaries "${MY_BINARIES}"
@@ -116,18 +117,16 @@ do
             MY_FILE_NAME="$(cat "${GAME_ID}_dlc.txt")"
             MY_FILE_NAME="$(region_rename "${MY_FILE_NAME}")"
 
-            # extract files and compress them with t7z
-            test -d "addcont/" && rm -rf "addcont/"
+            # extract files and compress them with zip
             pkg2zip -x "${GAME_ID}_dlc.pkg" "${KEY}"
-            # add the -rs parameter until a bug on the t7z port for FreeBSD is fixed
-            t7z -ba -rs a "${MY_FILE_NAME}.7z" "addcont/"
-            rm -rf "addcont/"
-            rm "${GAME_ID}_dlc.pkg"
-            rm "${GAME_ID}_dlc.txt"
-            cd "${MY_PATH}"
         fi
     fi
 done
+
+zip -r "${GAME_ID}.zip" "addcont"
+mv "${GAME_ID}.zip" "/sdcard/NPS/PSV/DLC"
+rm -rf "${GAME_ID}_dlc.pkg,${GAME_ID}_dlc.txt,addcont"
+
 if [ ${MISSING_COUNT} -gt 0 ]
 then
     exit 4

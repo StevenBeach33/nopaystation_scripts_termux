@@ -8,117 +8,68 @@ or all DLC of a PS Vita game, PSM or PSP games.
 * GNU/Linux
 * FreeBSD
 * Windows 10 with WSL should also work but it's untested
-
-## Requirements
-* a working internet connection
-* posix shell (bash, ksh, zsh, sh)
-* curl or wget
-* [*pkg2zip*](https://github.com/lusid1/pkg2zip) (please migrate to lusid1's fork as mmozeiko abandoned his project)
-* latest [*torrent7z*](https://github.com/BubblesInTheTub/torrent7z)
-* python3 + python3-lxml (install it via package manager or pip)
-* (Optional) latest [*mktorrent*](https://github.com/Rudde/mktorrent)
-
-
-## Compiling dependencies from source
-This section assumes that "${HOME}/bin" is in your shells "${PATH}".
-If you don't want to install the generating programs in $HOME. Just
-change it in the howto below to something like "/usr/local/bin" etc.
-
-### mktorrent
-If your package manager doesn't already have v1.1 you can compile it by yourself.
-mktorrent v1.1 is only needed for source flag. If you don't need it you also can use v1.0.
-You also need some sort of compiler (e.g. gcc) and "make" is needed.
-```bash
-git clone https://github.com/Rudde/mktorrent.git
-cd mktorrent/ && PREFIX=$HOME make
-PREFIX="${HOME}" make install
-rm -rf ~/mktorrent
-```
-
-### t7z
-Compile t7z from source (gcc and make is needed).
-```bash
-git clone https://github.com/BubblesInTheTub/torrent7z
-cd torrent7z/linux_src/p7zip_4.65/
-make
-install -Dm 0755 bin/t7z "${HOME}/bin"
-```
+* Termux
 
 ## nopaystation\_scripts Installation
+
 ```bash
-git clone https://github.com/sigmaboy/nopaystation_scripts.git && cd nopaystation_scripts
-chmod +x nps_*.sh pyNPU.py
-test -d "${HOME}/bin" && ln -s "$(pwd)"/nps_*.sh "$(pwd)"/pyNPU.py "${HOME}/bin"
+git clone https://github.com/steven33/nopaystation_scripts.git && cd nopaystation_scripts && bash setup.sh && source ~/.bashrc
 ```
 
-If you don't have *${HOME}/bin* in your *${PATH}*, try the following.
-```bash
-test -d "/usr/local/bin" && sudo ln -s "$(pwd)"/nps_*.sh "$(pwd)"/pyNPU.py "/usr/local/bin/"
-```
-
-## Script examples
+## Script examples and description 
 
 ### nps\_tsv.sh
-It downloads every \*.tsv file from NoPayStation.com and creates a tar archive with the current date for it.
-```bash
-./nps_tsv.sh /path/to/the/output_directory
-```
-If you don't add the output directory as the first parameter, it uses the current working directory.
-You need the \*.tsv file(s) for mostly every other script in this toolset.
+To download all of tsv from nopaystation and store it in `tsv` folder.
+It automatically executed while installation process.
 
 ### nps\_game.sh
-With this script you can download a PS Vita game.
-The first parameter is the path to your \*.tsv file and the second is the game's title ID.
-It places the \*.7z (torrent7z) file in the current directory.
+With this script you can download and unpack a PS Vita game and move it to /sdcard/NPS/PSV_GAME folder.
+The first parameter is the path to \*.tsv file and the second is the game's title ID.
 It also changes the region name into TV format (NTSC, PAL, ...)
 For example:
 ```bash
-./nps_game.sh /home/tux/Downloads/GAME.tsv PCSE00986
+bash nps_game.sh tsv/PSV_GAMES.tsv GAME_ID
 ```
 I can recommend [this](http://renascene.com/psv/) site for searching title IDs.
 
 ### nps\_update.sh
 With this script you can download the latest or all available PS Vita game updates.
 There is a optional first parameter "-a" and the second is the game's title ID.
-It places the files in a created directory from the current working directory named <\TITLE\_ID\_update>.
+It will be zipped and move to /sdcard/NPS/PSV_UPDATE folder.
 For example:
 ```bash
-./nps_update.sh [-a] PCSE00986
+bash nps_update.sh [-a] GAME_ID
 ```
 
 ### nps\_dlc.sh
 This script downloads every DLC found for a specific title ID with available zRIF key.
-Every update is placed in a created directory from the current working directory named <\TITLE\_ID\_update>.
+Every DLC will be zipped and move to /sdcard/NPS/PSV_DLC folder.
 For example:
 ```bash
-./nps_dlc.sh /home/tux/Downloads/DLC.tsv PCSE00986
+bash nps_dlc.sh tsv/PSV_DLCS.tsv GAME_ID
 ```
-Every DLC is placed in a created directory from the current working directory named <\TITLE\_ID\_dlc>.
 
 ### nps\_psm.sh
 With this script you can download a PSM game.
-The first parameter is the path to your \*.tsv file and the second is the game's title ID.
-It places the the \*.7z (torrent7z) file in the current directory.
+The first parameter is the path to \*.tsv file and the second is the game's title ID.
+It will zipped game and move to /sdcard/NPS/PSM folder.
 It also changes the region name into TV format (NTSC, PAL, ...)
 For example:
 ```bash
-./nps_psm.sh /home/tux/Downloads/PSM.tsv NPSA00115
+bash nps_psm.sh tsv/PSM_GAMES.tsv GAME_ID
 ```
 
 ### nps\_psp.sh
 With this script you can download a PSP game.
 The first parameter is the path to your \*.tsv file and the second is the game's title ID.
-It places the \*.iso file in the current directory.
+It move the \*.iso file to /sdcard/NPS/PSP directory.
 For example:
 ```bash
-./nps_psp.sh /home/tux/Downloads/PSP_GAMES.tsv NPUZ00001
+bash nps_psp.sh tsv/PSP_GAMES.tsv GAME_ID
 ```
 I can recommend [this](http://renascene.com/psp/) site for searching title IDs.
 
 ### nps\_bundle.sh
-Requirements:
-* pkg2zip and the optionally mktorrent If you want to use the source flag, you need mktorrent >= 1.1
-
 This script downloads the game, every update and dlc found for a specific title ID with available zRIF key.
 It puts the DLC and the Updates in a dedicated folder named like the generated zip and optionally creates a torrent for the game,
 updates and dlc folders. In fact it uses the three scripts from above, combines them and download everything available for a game.

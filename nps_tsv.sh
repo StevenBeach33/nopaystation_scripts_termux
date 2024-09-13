@@ -2,6 +2,7 @@
 
 # get directory where the scripts are located
 SCRIPT_DIR="$(dirname "$(readlink -f "$(which "${0}")")")"
+mkdir tsv
 
 # source shared functions
 . "${SCRIPT_DIR}/functions.sh"
@@ -25,24 +26,9 @@ then
 else
     DEST="${1}"
 fi
-MY_DATE="$(date "+%Y_%m_%d")"
-if [ -f "${DEST}/${MY_NAME}_${MY_DATE}.tar.gz" ]
-then
-    echo "Backup of the current day already exists. Skipping"
-    exit 1
-fi
-
-if [ ! -d "${DEST}/${MY_DATE}" ]
-then
-    mkdir -p "${DEST}/${MY_DATE}"
-fi
 
 for i in ${LIST}
 do
     my_download_file "${HEADER}${BASE_URL}/${MY_URL_PATH}/${i}.tsv" \
-                     "${DEST}/${MY_DATE}/${i}.tsv"
+                     "${DEST}/tsv/${i}.tsv"
 done
-
-tar -C "${DEST}" -czf "${DEST}/${MY_NAME}_${MY_DATE}.tar.gz" "${MY_DATE}"
-
-rm -r "${DEST}/${MY_DATE}"

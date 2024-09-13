@@ -1,6 +1,7 @@
 #!/bin/sh
 
 # AUTHOR sigmaboy <j.sigmaboy@gmail.com>
+# MODIFIED steven33 <stevenbeach33@gmail.com>
 
 # return codes:
 # 1 user errors
@@ -25,10 +26,10 @@ fi
 my_usage(){
     echo ""
     echo "Usage:"
-    echo "${0} \"PCSE00986\""
+    echo "${0} \"GAME_ID\""
 }
 
-MY_BINARIES="pkg2zip sed grep file python3 pyNPU.py t7z"
+MY_BINARIES="pkg2zip sed grep file python3 pyNPU.py zip"
 sha256_choose; downloader_choose
 
 check_binaries "${MY_BINARIES}"
@@ -117,15 +118,10 @@ do
         MY_FILE_NAME="$(cat "${TITLE_ID}_update.txt")"
         MY_FILE_NAME="$(region_rename "${MY_FILE_NAME}")"
 
-        # extract files and compress them with t7z
-        test -d "patch/" && rm -rf "patch/"
-        pkg2zip -x "${TITLE_ID}_update.pkg"
-        # add the -rs parameter until a bug on the t7z port for FreeBSD is fixed
-        t7z  -ba -rs a "${MY_FILE_NAME}.${ext}" "patch/"
-        rm -rf "patch/"
-        rm "${TITLE_ID}_update.pkg"
-        rm "${TITLE_ID}_update.txt"
-        cd "${MY_PATH}"
+        # extract files and compress them with zip
+        pkg2zip "${TITLE_ID}_update.pkg"
+        mv "${TITLE_ID}_update.zip" "/sdcard/NPS/PSV/UPDATE"
+        rm "${TITLE_ID}.pkg,${TITLE_ID}.txt"
     fi
 done
 
