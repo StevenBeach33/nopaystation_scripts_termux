@@ -110,8 +110,9 @@ else
 
         #  extract pkg, zip it and move to sdcard
         pkg2zip -x "${TITLE_ID}.pkg" "${KEY}"
-        mv "${TITLE_ID}.zip" "/sdcard/NPS/PSV/GAME"
-        rm "${TITLE_ID}.pkg" "${TITLE_ID}.txt"
     fi
 fi
+zip -r "${TITLE_ID}.zip" "app"
+mv "${TITLE_ID}.zip" "/sdcard/NPS/PSV/GAME"
+rm -rf "${TITLE_ID}.pkg" "${TITLE_ID}.txt" "app"
 exit 0
