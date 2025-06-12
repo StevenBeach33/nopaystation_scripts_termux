@@ -114,17 +114,13 @@ do
     else
         my_download_file "${i}" "${TITLE_ID}_update.pkg"
 
-        pkg2zip -l "${TITLE_ID}_update.pkg" | sed 's/\.zip//g' > "${TITLE_ID}_update.txt"
-        MY_FILE_NAME="$(cat "${TITLE_ID}_update.txt")"
-        MY_FILE_NAME="$(region_rename "${MY_FILE_NAME}")"
-
         # extract files and compress them with zip
-        pkg2zip "${TITLE_ID}_update.pkg"
-        mv "${TITLE_ID}_update.zip" "/sdcard/NPS/PSV/UPDATE"
-        rm "${TITLE_ID}.pkg,${TITLE_ID}.txt"
+        pkg2zip -x "${TITLE_ID}_update.pkg"
     fi
 done
-
+zip -r "${TITLE_ID}_update.zip" "patch"
+mv "${TITLE_ID}_update.zip" "/sdcard/NPS/PSV/UPDATE"
+rm -rf "${TITLE_ID}_update.pkg" "${TITLE_ID}_update.txt" "changelog.txt" "patch"
 if [ ${RENAME} -eq 1 ]
 then
     # this code is pretty ugly. It's just to make sure the directory naming scheme behaves like when overriding $DESTDIR with the game name
