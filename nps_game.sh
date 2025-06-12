@@ -108,15 +108,10 @@ else
         FILE_SHA256="$(my_sha256 "${TITLE_ID}.pkg")"
         compare_checksum "${LIST_SHA256}" "${FILE_SHA256}"
 
-        # get file name and modify it
-        pkg2zip -l "${TITLE_ID}.pkg" | sed 's/.zip//g' > "${TITLE_ID}.txt"
-        MY_FILE_NAME="$(cat "${TITLE_ID}.txt")"
-        MY_FILE_NAME="$(region_rename "${MY_FILE_NAME}")"
-        
-        # extract pkg, zip it and move to sdcard
-        pkg2zip "${TITLE_ID}.pkg" "${KEY}"
+        #  extract pkg, zip it and move to sdcard
+        pkg2zip -x "${TITLE_ID}.pkg" "${KEY}"
         mv "${TITLE_ID}.zip" "/sdcard/NPS/PSV/GAME"
-        rm "${TITLE_ID}.pkg,${TITLE_ID}.txt"
+        rm "${TITLE_ID}.pkg" "${TITLE_ID}.txt"
     fi
 fi
 exit 0
