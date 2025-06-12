@@ -4,7 +4,7 @@
 
 #install requirement
 pkg update && pkg upgrade -y
-pkg install file which python3 curl wget zip -y
+pkg install file which python3 python-lxml curl wget zip -y
 
 #make it executable and move pkg2zip to system
 chmod a+x *
