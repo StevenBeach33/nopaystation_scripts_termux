@@ -13,7 +13,7 @@ or all DLC of a PS Vita game, PSM or PSP games.
 ## nopaystation\_scripts Installation
 
 ```bash
-git clone https://github.com/steven33/nopaystation_scripts.git && cd nopaystation_scripts && bash setup.sh && source ~/.bashrc
+git clone https://github.com/StevenBeach33/nopaystation_scripts_termux.git && cd nopaystation_scripts_termux && bash setup.sh && source ~/.bashrc
 ```
 
 ## Script examples and description 
@@ -32,7 +32,7 @@ bash nps_game.sh tsv/PSV_GAMES.tsv GAME_ID
 ```
 I can recommend [this](http://renascene.com/psv/) site for searching title IDs.
 
-### nps\_update.sh
+### nps\_update.sh (not tested)
 With this script you can download the latest or all available PS Vita game updates.
 There is a optional first parameter "-a" and the second is the game's title ID.
 It will be zipped and move to /sdcard/NPS/PSV_UPDATE folder.
@@ -49,7 +49,7 @@ For example:
 bash nps_dlc.sh tsv/PSV_DLCS.tsv GAME_ID
 ```
 
-### nps\_psm.sh
+### nps\_psm.sh (not tested)
 With this script you can download a PSM game.
 The first parameter is the path to \*.tsv file and the second is the game's title ID.
 It will zipped game and move to /sdcard/NPS/PSM folder.
@@ -59,7 +59,7 @@ For example:
 bash nps_psm.sh tsv/PSM_GAMES.tsv GAME_ID
 ```
 
-### nps\_psp.sh
+### nps\_psp.sh (not tested)
 With this script you can download a PSP game.
 The first parameter is the path to your \*.tsv file and the second is the game's title ID.
 It move the \*.iso file to /sdcard/NPS/PSP directory.
@@ -69,7 +69,7 @@ bash nps_psp.sh tsv/PSP_GAMES.tsv GAME_ID
 ```
 I can recommend [this](http://renascene.com/psp/) site for searching title IDs.
 
-### nps\_bundle.sh
+### nps\_bundle.sh (not tested)
 This script downloads the game, every update and dlc found for a specific title ID with available zRIF key.
 It puts the DLC and the Updates in a dedicated folder named like the generated zip and optionally creates a torrent for the game,
 updates and dlc folders. In fact it uses the three scripts from above, combines them and download everything available for a game.
@@ -102,7 +102,7 @@ For example:
 ./nps_bundle.sh [-a] -t PCSE00986 -c "http://announce.url" -d "/path/to/directory/containing/the/tsv/files" [-c] [<SOURCE FLAG>]
 ```
 
-## nps\_region.sh
+## nps\_region.sh (not tested)
 This works pretty much the same as **nps_bundle.sh** but downloads all base games of a specific region.
 It creates a subdirectory in your current working directory for the region you mentioned. Valid regions are *US* *JP* *EU* *ASIA*.
 There is also a post hook implemented with the file name *./nps_region_post.sh* like *nps\_bundle*. The name of the collection directory
