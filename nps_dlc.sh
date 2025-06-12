@@ -80,12 +80,6 @@ do
         >&2 echo "zRIF key is missing."
         MISSING_COUNT=$((${MISSING_COUNT} + 1))
     else
-        if [ ! -d "${MY_PATH}/${DESTDIR}_dlc" ]
-        then
-            mkdir "${MY_PATH}/${DESTDIR}_dlc"
-        fi
-        cd "${MY_PATH}/${DESTDIR}_dlc"
-
         if find . -maxdepth 1 -type f -name "*[${TITLE_ID}]*[DLC*.${ext}" | grep -q -E "\[${TITLE_ID}\].*\[DLC.*\.${ext}"
         then
             EXISTING_COUNT=0
@@ -125,7 +119,7 @@ done
 
 zip -r "${GAME_ID}.zip" "addcont"
 mv "${GAME_ID}.zip" "/sdcard/NPS/PSV/DLC"
-rm -rf "${GAME_ID}_dlc.pkg,${GAME_ID}_dlc.txt,addcont"
+rm -rf "${GAME_ID}_dlc.pkg" "${GAME_ID}_dlc.txt" "addcont"
 
 if [ ${MISSING_COUNT} -gt 0 ]
 then
