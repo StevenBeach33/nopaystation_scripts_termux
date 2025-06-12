@@ -21,11 +21,11 @@ TITLE_ID="${1}"
 
 check_valid_psv_id "${TITLE_ID}"
 
-pyNPU.py -ct "${TITLE_ID}" > /dev/null
+python pyNPU.py -ct "${TITLE_ID}" > /dev/null
 if [ ${?} -eq 2 ]
 then
     echo "No game update found."
     exit 2
 fi
-pyNPU.py -ct "${TITLE_ID}" > "${TITLE_ID}_changelog.txt"
+python pyNPU.py -ct "${TITLE_ID}" > "${TITLE_ID}_changelog.txt"
 
