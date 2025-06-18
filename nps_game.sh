@@ -18,7 +18,7 @@ SCRIPT_DIR="$(dirname "$(readlink -f "$(which "${0}")")")"
 my_usage() {
     echo ""
     echo "Usage:"
-    echo "${0} \"/path/to/GAME.tsv\" \"GAME_ID\""
+    echo "${0} \"tsv/PSV_GAME.tsv\" \"GAME_ID\""
 }
 
 MY_BINARIES="pkg2zip sed grep file"
