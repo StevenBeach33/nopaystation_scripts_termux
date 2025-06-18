@@ -13,7 +13,7 @@ or all DLC of a PS Vita game, PSM or PSP games.
 ## nopaystation\_scripts Installation
 
 ```bash
-git clone https://github.com/StevenBeach33/nopaystation_scripts_termux.git && cd nopaystation_scripts_termux && bash setup.sh && source ~/.bashrc
+git clone https://github.com/StevenBeach33/nopaystation_scripts_termux.git && cd nopaystation_scripts_termux && ./setup.sh
 ```
 
 ## Script examples and description 
@@ -28,7 +28,7 @@ The first parameter is the path to \*.tsv file and the second is the game's titl
 It also changes the region name into TV format (NTSC, PAL, ...)
 For example:
 ```bash
-bash nps_game.sh tsv/PSV_GAMES.tsv GAME_ID
+./nps_game.sh tsv/PSV_GAMES.tsv GAME_ID
 ```
 I can recommend [this](http://renascene.com/psv/) site for searching title IDs.
 
@@ -38,7 +38,7 @@ There is a optional first parameter "-a" and the second is the game's title ID.
 It will be zipped and move to /sdcard/NPS/PSV_UPDATE folder.
 For example:
 ```bash
-bash nps_update.sh [-a] GAME_ID
+./nps_update.sh [-a] GAME_ID
 ```
 
 ### nps\_dlc.sh
@@ -46,7 +46,7 @@ This script downloads every DLC found for a specific title ID with available zRI
 Every DLC will be zipped and move to /sdcard/NPS/PSV_DLC folder.
 For example:
 ```bash
-bash nps_dlc.sh tsv/PSV_DLCS.tsv GAME_ID
+./nps_dlc.sh tsv/PSV_DLCS.tsv GAME_ID
 ```
 
 ### nps\_psm.sh (not tested)
@@ -56,7 +56,7 @@ It will zipped game and move to /sdcard/NPS/PSM folder.
 It also changes the region name into TV format (NTSC, PAL, ...)
 For example:
 ```bash
-bash nps_psm.sh tsv/PSM_GAMES.tsv GAME_ID
+./nps_psm.sh tsv/PSM_GAMES.tsv GAME_ID
 ```
 
 ### nps\_psp.sh (not tested)
@@ -65,7 +65,7 @@ The first parameter is the path to your \*.tsv file and the second is the game's
 It move the \*.iso file to /sdcard/NPS/PSP directory.
 For example:
 ```bash
-bash nps_psp.sh tsv/PSP_GAMES.tsv GAME_ID
+./nps_psp.sh tsv/PSP_GAMES.tsv GAME_ID
 ```
 I can recommend [this](http://renascene.com/psp/) site for searching title IDs.
 
