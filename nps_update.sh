@@ -1,7 +1,6 @@
 #!/bin/sh
 
 # AUTHOR sigmaboy <j.sigmaboy@gmail.com>
-# MODIFIED steven33 <stevenbeach33@gmail.com>
 
 # return codes:
 # 1 user errors
@@ -29,7 +28,7 @@ my_usage(){
     echo "${0} \"GAME_ID\""
 }
 
-MY_BINARIES="pkg2zip sed grep file python3 pyNPU.py zip"
+MY_BINARIES="pkg2zip sed grep file python3"
 sha256_choose; downloader_choose
 
 check_binaries "${MY_BINARIES}"
@@ -51,14 +50,14 @@ MY_PATH="$(pwd)"
 
 
 # test if any update is available
-pyNPU.py --link --title-id ${TITLE_ID} > /dev/null
+python pyNPU.py --link --title-id ${TITLE_ID} > /dev/null
 if [ "${?}" -eq 2 ]
 then
     >&2 echo "No updates available for title ID \"${TITLE_ID}\"."
     exit 2
 fi
 
-GAME_NAME="$(pyNPU.py --name --title-id "${TITLE_ID}")"
+GAME_NAME="$(python pyNPU.py --name --title-id "${TITLE_ID}")"
 
 # make DESTDIR overridable
 if [ -z "${DESTDIR}" ]
@@ -69,27 +68,20 @@ else
     RENAME=0
 fi
 
-# create download dir if updates for this game are available
-if [ ! -d "${MY_PATH}/${DESTDIR}_update" ]
-then
-    mkdir "${MY_PATH}/${DESTDIR}_update"
-fi
-
-# get the download links from the pyton script
+# get the download links from the python script
 # check if the script should just output the latest update or all
 if [ "${ALL}" -eq 0 ]
 then
-    LIST="$(pyNPU.py --link --title-id "${TITLE_ID}")"
+    LIST="$(python pyNPU.py --link --title-id "${TITLE_ID}")"
 else
-    LIST="$(pyNPU.py --link --all --title-id "${TITLE_ID}")"
+    LIST="$(python pyNPU.py --link --all --title-id "${TITLE_ID}")"
 fi
 
-# download changelog in *.txt format
-pyNPU.py --changelog --title-id "${TITLE_ID}" > "${MY_PATH}/${DESTDIR}_update/changelog.txt"
+python pyNPU.py --changelog --title-id "${TITLE_ID}" > "${MY_PATH}/changelog.txt"
 
 for i in ${LIST}
 do
-    cd "${MY_PATH}/${DESTDIR}_update"
+    cd "${MY_PATH}"
     if find . -maxdepth 1 -type f -name "*[${TITLE_ID}]*.${ext}" | grep -q -E "\[${TITLE_ID}\].*\.${ext}"
     then
         COUNT=0
@@ -114,16 +106,11 @@ do
     else
         my_download_file "${i}" "${TITLE_ID}_update.pkg"
 
-        # extract files and compress them with zip
+        # extract files and compress them with t7z
+        test -d "patch/" && rm -rf "patch/"
         pkg2zip -x "${TITLE_ID}_update.pkg"
+        zip -r "${TITLE_ID}_update.zip" "patch"
+        mv "${TITLE_ID}_update.zip" "/sdcard/NPS/PSV/UPDATE"
+        rm -rf "${TITLE_ID}_update.pkg" "changelog.txt" "patch"
     fi
 done
-zip -r "${TITLE_ID}_update.zip" "patch"
-mv "${TITLE_ID}_update.zip" "/sdcard/NPS/PSV/UPDATE"
-rm -rf "${TITLE_ID}_update.pkg" "${TITLE_ID}_update.txt" "changelog.txt" "patch"
-if [ ${RENAME} -eq 1 ]
-then
-    # this code is pretty ugly. It's just to make sure the directory naming scheme behaves like when overriding $DESTDIR with the game name
-    REGION_NAME="$(basename "$(find "${MY_PATH}/${DESTDIR}_update" -type f -name "*.${ext}" | head -n 1)" | sed "s/.*\[${TITLE_ID}\] \[//g" | sed 's/\] \[PATCH.*//')"
-    mv "${MY_PATH}/${DESTDIR}_update" "${MY_PATH}/${GAME_NAME} [${TITLE_ID}] [${REGION_NAME}]_update"
-fi
