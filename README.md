@@ -5,9 +5,6 @@ There are several scripts. One to download all \*.tsv files of NoPayStation. The
 or all DLC of a PS Vita game, PSM or PSP games.
 
 ## Supported Operating Systems
-* GNU/Linux
-* FreeBSD
-* Windows 10 with WSL should also work but it's untested
 * Termux
 
 ## nopaystation\_scripts Installation
@@ -121,3 +118,4 @@ Just use the "-h" parameter to get all parameters and examples. It's useful for 
 # ToDos
 * add command line parameters to control the behaviour of the download scripts (downloading/compressing only)
 * compare the whole download + compression process of pkg2zip vs. pkg2zip without zipping + torrent7z compressing
+
